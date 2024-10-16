@@ -2,13 +2,13 @@
 ### Name: THANJIYAPPAN K
 ### Register Number: 212222240108
 
-## AIM
+### AIM
 To implement Monte Carlo prediction to evaluate an optimal policy in a grid-based environment using Gym's SlipperyWalkFive-v0.
 
-## PROBLEM STATEMENT
+### PROBLEM STATEMENT
 The task involves evaluating the effectiveness of a policy in a grid-based environment using Monte Carlo methods. The environment consists of states and actions, where the goal is to navigate the agent to a terminal state while maximizing rewards. The system needs to determine the action-value and state-value functions for the policy and analyze the policy's performance in terms of success probability and average return.
 
-## MONTE CARLO CONTROL ALGORITHM
+### MONTE CARLO CONTROL ALGORITHM
 ### Step 1:
 Initialize Parameters
 Set up the environment, policy, and initialize the action-value (Q) and state-value (V) functions.
@@ -31,7 +31,7 @@ Calculate the success rate and mean return of the policy based on the computed v
 Output:
 Display the action-value, state-value functions, and the performance metrics for the policy.
 
-## MONTE CARLO CONTROL FUNCTION
+### MONTE CARLO CONTROL FUNCTION
 ### Import the necessary packages:
 ```
 import warnings
@@ -42,7 +42,7 @@ import random
 from itertools import count
 from tqdm import tqdm
 ```
-# Suppress warnings
+## Suppress warnings
 ```
 warnings.filterwarnings('ignore')
 np.set_printoptions(suppress=True)
@@ -50,10 +50,10 @@ random.seed(123)
 np.random.seed(123)
 
 ```
-# Uncomment the following line to install gym-walk
-# !pip install git+https://github.com/mimoralea/gym-walk#egg=gym-walk
+## Uncomment the following line to install gym-walk
+### !pip install git+https://github.com/mimoralea/gym-walk#egg=gym-walk
 
-# Policy Printing Function
+## Policy Printing Function
 ```
 def print_policy(pi, P, n_cols=4, title='Policy:'):
     print(title)
@@ -69,7 +69,7 @@ def print_policy(pi, P, n_cols=4, title='Policy:'):
             print("|")
     print()
 ```
-# State-Value Function Printing
+## State-Value Function Printing
 ```
 def print_state_value_function(V, P, n_cols=4, prec=3, title='State-value function:'):
     print(title)
@@ -84,7 +84,7 @@ def print_state_value_function(V, P, n_cols=4, prec=3, title='State-value functi
             print("|")
     print()
 ```
-# Probability of Success
+## Probability of Success
 ```
 def probability_success(env, pi, goal_state, n_episodes=100, max_steps=200):
     random.seed(123)
@@ -99,7 +99,7 @@ def probability_success(env, pi, goal_state, n_episodes=100, max_steps=200):
         results.append(state == goal_state)
     return np.sum(results) / len(results)
 ```
-# Mean Return Calculation
+## Mean Return Calculation
 ```
 def mean_return(env, pi, n_episodes=100, max_steps=200):
     random.seed(123)
@@ -115,7 +115,7 @@ def mean_return(env, pi, n_episodes=100, max_steps=200):
             steps += 1
     return np.mean(results)
 ```
-# Decay Schedule Function
+## Decay Schedule Function
 ```
 def decay_schedule(init_value, min_value, decay_ratio, max_steps, log_start=-2, log_base=10):
     decay_steps = int(max_steps * decay_ratio)
@@ -126,7 +126,7 @@ def decay_schedule(init_value, min_value, decay_ratio, max_steps, log_start=-2, 
     values = np.pad(values, (0, rem_steps), 'edge')
     return values
 ```
-# Generate Trajectory Function
+## Generate Trajectory Function
 ```
 def generate_trajectory(select_action, Q, epsilon, env, max_steps=200):
     done, trajectory = False, []
@@ -141,7 +141,7 @@ def generate_trajectory(select_action, Q, epsilon, env, max_steps=200):
         state = next_state
     return np.array(trajectory, dtype=object)
 ```
-# Monte Carlo Control Function
+## Monte Carlo Control Function
 ```
 def mc_control(env, gamma=1.0, init_alpha=0.5, min_alpha=0.01, alpha_decay_ratio=0.5,
                init_epsilon=1.0, min_epsilon=0.1, epsilon_decay_ratio=0.9,
@@ -174,32 +174,32 @@ def mc_control(env, gamma=1.0, init_alpha=0.5, min_alpha=0.01, alpha_decay_ratio
 
     return Q, V, pi
 ```
-# Main Execution
+## Main Execution
 ```
 env = gym.make('FrozenLake-v1', is_slippery=False)  # Set is_slippery to False for deterministic behavior
 P = env.env.P
 goal_state = 15
 ```
-# Perform Monte Carlo control to get optimal Q, V, and pi
+## Perform Monte Carlo control to get optimal Q, V, and pi
 ```
 optimal_Q, optimal_V, optimal_pi = mc_control(env, n_episodes=3000)
 ```
-# Action-Value Function
+## Action-Value Function
 ```
 print('Action-Value Function:')
 print_state_value_function(optimal_Q, P, n_cols=4, prec=2, title='Action-value function:')
 ```
-# Optimal Value Function
+## Optimal Value Function
 ```
 print('Optimal Value Function:')
 print_state_value_function(optimal_V, P, n_cols=4, prec=2, title='State-value function:')
 ```
-# Optimal Policy
+## Optimal Policy
 ```
 print('Optimal Policy:')
 print_policy(optimal_pi, P)
 ```
-# Success Rate for Optimal Policy
+## Success Rate for Optimal Policy
 ```
 success_prob = probability_success(env, optimal_pi, goal_state=goal_state) * 100
 mean_ret = mean_return(env, optimal_pi)
